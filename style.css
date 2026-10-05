@@ -392,6 +392,37 @@ button:disabled {
 }
 
 /* ==========================================
+   第三擅長團本
+========================================== */
+
+.third-best-team-area {
+    display: none;
+
+    margin-top: 35px;
+    padding-top: 30px;
+
+    border-top: 1px solid #eeeeee;
+}
+
+.third-best-label {
+    margin-bottom: 15px;
+
+    color: #777;
+
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.third-best-team-name {
+    margin: 20px 0;
+
+    font-size: 30px;
+    font-weight: bold;
+
+    line-height: 1.4;
+}
+
+/* ==========================================
    第六頁：缺席統計
 ========================================== */
 
@@ -456,11 +487,270 @@ button:disabled {
     white-space: pre-line;
 }
 
+.best-team-score-text {
+    margin: -5px 0 25px;
+
+    color: #777;
+
+    font-size: 16px;
+}
+
+.best-team-score-text strong {
+    margin: 0 4px;
+
+    color: #222;
+
+    font-size: 22px;
+}
+
 /* ==========================================
-   寶箱小偷：警告模式
+   身分特效共用
 ========================================== */
 
-/* 整個網頁變成紅色警告背景 */
+#effectLayer {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+
+    overflow: hidden;
+
+    z-index: 9999;
+}
+
+
+/* ==========================================
+   深淵巨佬
+   黑金 Boss 模式
+========================================== */
+
+body.abyss-king-mode {
+    background:
+        radial-gradient(
+            circle at center,
+            #5d4a00 0%,
+            #1c1700 40%,
+            #080808 100%
+        );
+
+    transition: background 0.5s ease;
+}
+
+
+body.abyss-king-mode #identityPage {
+    border: 2px solid #d4af37;
+
+    box-shadow:
+        0 0 15px rgba(255, 215, 0, 0.5),
+        0 0 45px rgba(255, 193, 7, 0.25),
+        0 8px 30px rgba(0, 0, 0, 0.4);
+
+    animation:
+        abyssBossEnter 0.7s ease-out;
+}
+
+
+body.abyss-king-mode #identityTitle {
+    color: #b8860b;
+
+    text-shadow:
+        0 0 8px rgba(255, 215, 0, 0.5),
+        0 0 18px rgba(255, 193, 7, 0.35);
+}
+
+
+body.abyss-king-mode .identity-message-area {
+    background:
+        linear-gradient(
+            135deg,
+            #fffbea,
+            #fff3bf
+        );
+
+    border: 1px solid #e0c15a;
+}
+
+
+/* Boss 登場 */
+
+@keyframes abyssBossEnter {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            scale(0.75)
+            translateY(25px);
+
+        filter:
+            brightness(2);
+    }
+
+    55% {
+        opacity: 1;
+
+        transform:
+            scale(1.07)
+            translateY(0);
+
+        filter:
+            brightness(1.4);
+    }
+
+    100% {
+        transform:
+            scale(1);
+
+        filter:
+            brightness(1);
+    }
+
+}
+
+
+/* ==========================================
+   團本高手
+========================================== */
+
+body.team-master-mode {
+    background:
+        radial-gradient(
+            circle at center,
+            #fff3cd,
+            #f4a261
+        );
+
+    transition: background 0.5s ease;
+}
+
+
+body.team-master-mode #identityPage {
+    border: 2px solid #f4a261;
+
+    box-shadow:
+        0 0 25px rgba(244, 162, 97, 0.45),
+        0 8px 30px rgba(0, 0, 0, 0.12);
+
+    animation:
+        teamMasterEnter 0.55s ease-out;
+}
+
+
+body.team-master-mode #identityTitle {
+    color: #d97706;
+}
+
+
+@keyframes teamMasterEnter {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            scale(0.9);
+    }
+
+    70% {
+        transform:
+            scale(1.04);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            scale(1);
+    }
+
+}
+
+
+/* ==========================================
+   合格族員
+========================================== */
+
+body.qualified-mode {
+    background:
+        linear-gradient(
+            135deg,
+            #edf7ed,
+            #f4f6f8
+        );
+
+    transition: background 0.5s ease;
+}
+
+
+body.qualified-mode #identityPage {
+    box-shadow:
+        0 0 20px rgba(76, 175, 80, 0.2),
+        0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+
+body.qualified-mode #identityTitle {
+    color: #388e3c;
+}
+
+
+/* ==========================================
+   觀察名單
+========================================== */
+
+body.watch-mode {
+    background: #fff3cd;
+
+    transition: background 0.4s ease;
+}
+
+
+body.watch-mode #identityPage {
+    border: 3px solid #f0ad4e;
+
+    animation:
+        warningFlash 0.25s ease-in-out 3;
+}
+
+
+body.watch-mode #identityTitle {
+    color: #d99000;
+}
+
+
+body.watch-mode .identity-message-area {
+    background: #fff8e1;
+}
+
+
+@keyframes warningFlash {
+
+    0% {
+        box-shadow:
+            0 0 0 rgba(255, 193, 7, 0);
+    }
+
+    50% {
+        box-shadow:
+            0 0 35px rgba(255, 193, 7, 0.8);
+    }
+
+    100% {
+        box-shadow:
+            0 0 0 rgba(255, 193, 7, 0);
+    }
+
+}
+
+
+/* ==========================================
+   寶箱小偷
+========================================== */
+
 body.danger-mode {
     background: #b71c1c;
 
@@ -468,7 +758,6 @@ body.danger-mode {
 }
 
 
-/* 寶箱小偷卡片 */
 body.danger-mode #identityPage {
     border: 3px solid #d32f2f;
 
@@ -476,25 +765,20 @@ body.danger-mode #identityPage {
         0 0 20px rgba(211, 47, 47, 0.5),
         0 8px 30px rgba(0, 0, 0, 0.25);
 
-    animation: dangerShake 0.1s linear 4;
+    animation:
+        dangerShake 0.1s linear 4;
 }
 
 
-/* 身分名稱變紅 */
 body.danger-mode #identityTitle {
     color: #d32f2f;
 }
 
 
-/* 警告訊息淡紅底 */
 body.danger-mode .identity-message-area {
     background: #ffebee;
 }
 
-
-/* ==========================================
-   左右晃動動畫
-========================================== */
 
 @keyframes dangerShake {
 
@@ -503,23 +787,434 @@ body.danger-mode .identity-message-area {
     }
 
     20% {
-        transform: translateX(-10px) rotate(-1deg);
+        transform:
+            translateX(-10px)
+            rotate(-1deg);
     }
 
     40% {
-        transform: translateX(10px) rotate(1deg);
+        transform:
+            translateX(10px)
+            rotate(1deg);
     }
 
     60% {
-        transform: translateX(-8px) rotate(-1deg);
+        transform:
+            translateX(-8px)
+            rotate(-1deg);
     }
 
     80% {
-        transform: translateX(8px) rotate(1deg);
+        transform:
+            translateX(8px)
+            rotate(1deg);
     }
 
     100% {
         transform: translateX(0);
+    }
+
+}
+
+
+/* ==========================================
+   粒子
+========================================== */
+
+.effect-particle {
+    position: absolute;
+
+    top: -50px;
+
+    user-select: none;
+
+    animation:
+        particleFall linear forwards;
+}
+
+
+@keyframes particleFall {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateY(-30px)
+            rotate(0deg)
+            scale(0.5);
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translateY(110vh)
+            rotate(720deg)
+            scale(1);
+    }
+
+}
+
+
+/* ==========================================
+   深淵巨佬：左右金色爆發粒子
+========================================== */
+
+.abyss-particle {
+    position: absolute;
+
+    font-size: 24px;
+
+    animation:
+        abyssParticleBurst 1.3s ease-out forwards;
+}
+
+
+@keyframes abyssParticleBurst {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0)
+            scale(0.2)
+            rotate(0deg);
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(
+                var(--move-x),
+                var(--move-y)
+            )
+            scale(1.3)
+            rotate(360deg);
+    }
+
+}
+
+/* ==========================================
+   第八頁：本月排行榜
+========================================== */
+
+#rankingPage {
+    max-width: 720px;
+}
+
+
+/* ==========================================
+   排行榜區塊
+========================================== */
+
+.ranking-section {
+    margin-top: 45px;
+    padding-top: 35px;
+
+    border-top: 1px solid #eeeeee;
+}
+
+.ranking-section:first-of-type {
+    margin-top: 30px;
+}
+
+.ranking-title {
+    margin: 0 0 35px;
+
+    font-size: 22px;
+    font-weight: bold;
+
+    color: #333;
+}
+
+
+/* ==========================================
+   頒獎台
+========================================== */
+
+.podium {
+    display: flex;
+
+    justify-content: center;
+    align-items: flex-end;
+
+    gap: 12px;
+
+    width: 100%;
+
+    margin-top: 25px;
+    margin-bottom: 45px;
+}
+
+
+/* ==========================================
+   單一名次
+========================================== */
+
+.podium-item {
+    flex: 1;
+
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    text-align: center;
+}
+
+
+/* ==========================================
+   玩家名稱
+========================================== */
+
+.podium-names {
+    min-height: 55px;
+
+    margin-bottom: 8px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    gap: 4px;
+}
+
+.podium-player-name {
+    font-size: 15px;
+    font-weight: bold;
+
+    line-height: 1.4;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* ==========================================
+   成績
+========================================== */
+
+.podium-score {
+    min-height: 22px;
+
+    margin-bottom: 10px;
+
+    color: #666;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* ==========================================
+   頒獎台柱子
+========================================== */
+
+.podium-block {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 5px;
+
+    border-radius: 12px 12px 4px 4px;
+}
+
+
+/* ==========================================
+   第一名
+========================================== */
+
+.podium-rank-1 .podium-block {
+    height: 150px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffe082,
+            #f9c74f
+        );
+
+    border: 2px solid #e0a800;
+
+    box-shadow:
+        0 6px 18px rgba(224, 168, 0, 0.25);
+}
+
+
+/* ==========================================
+   第二名
+========================================== */
+
+.podium-rank-2 .podium-block {
+    height: 115px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #eeeeee,
+            #cfd4da
+        );
+
+    border: 2px solid #adb5bd;
+
+    box-shadow:
+        0 6px 18px rgba(108, 117, 125, 0.18);
+}
+
+
+/* ==========================================
+   第三名
+========================================== */
+
+.podium-rank-3 .podium-block {
+    height: 85px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #e6b17e,
+            #cd7f32
+        );
+
+    border: 2px solid #b56d28;
+
+    box-shadow:
+        0 6px 18px rgba(181, 109, 40, 0.2);
+}
+
+
+/* ==========================================
+   獎牌
+========================================== */
+
+.podium-medal {
+    font-size: 32px;
+
+    line-height: 1;
+
+    margin-bottom: 8px;
+}
+
+
+/* ==========================================
+   名次文字
+========================================== */
+
+.podium-rank-text {
+    font-size: 16px;
+    font-weight: bold;
+
+    color: #333;
+}
+
+
+/* 第一名稍微突出 */
+
+.podium-rank-1 .podium-rank-text {
+    font-size: 19px;
+}
+
+
+/* ==========================================
+   沒有排行榜資料
+========================================== */
+
+.ranking-empty {
+    width: 100%;
+
+    margin: 20px 0 40px;
+
+    padding: 20px;
+
+    background: #f7f7f7;
+
+    border-radius: 12px;
+
+    color: #777;
+
+    font-size: 16px;
+
+    text-align: center;
+}
+
+
+/* ==========================================
+   第八頁重新查詢按鈕
+========================================== */
+
+#rankingPage #restartButton {
+    margin-top: 20px;
+}
+
+
+/* ==========================================
+   手機版
+========================================== */
+
+@media (max-width: 600px) {
+
+    #rankingPage {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+
+    .podium {
+        gap: 6px;
+    }
+
+
+    .podium-player-name {
+        font-size: 12px;
+    }
+
+
+    .podium-score {
+        font-size: 11px;
+    }
+
+
+    .podium-rank-1 .podium-block {
+        height: 130px;
+    }
+
+
+    .podium-rank-2 .podium-block {
+        height: 100px;
+    }
+
+
+    .podium-rank-3 .podium-block {
+        height: 75px;
+    }
+
+
+    .podium-medal {
+        font-size: 26px;
+    }
+
+
+    .podium-rank-text {
+        font-size: 13px;
+    }
+
+
+    .podium-rank-1 .podium-rank-text {
+        font-size: 15px;
     }
 
 }

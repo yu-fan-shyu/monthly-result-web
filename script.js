@@ -48,6 +48,9 @@ const absentPage =
 const identityPage =
     document.getElementById("identityPage");
 
+const rankingPage =
+    document.getElementById("rankingPage");
+
 // ============================================================
 // 第二頁：總達標元件
 // ============================================================
@@ -136,8 +139,29 @@ const secondBestTeamEventName =
 const secondBestTeamRank =
     document.getElementById("secondBestTeamRank");
 
+const thirdBestTeamArea =
+    document.getElementById("thirdBestTeamArea");
+
+const thirdBestTeamName =
+    document.getElementById("thirdBestTeamName");
+
+const thirdBestTeamEventName =
+    document.getElementById("thirdBestTeamEventName");
+
+const thirdBestTeamRank =
+    document.getElementById("thirdBestTeamRank");
+
 const nextToAbsentButton =
     document.getElementById("nextToAbsentButton");
+
+const bestTeamScore =
+    document.getElementById("bestTeamScore");
+
+const secondBestTeamScore =
+    document.getElementById("secondBestTeamScore");
+
+const thirdBestTeamScore =
+    document.getElementById("thirdBestTeamScore");
 
 // ============================================================
 // 第六頁：缺席統計元件
@@ -156,7 +180,7 @@ const nextToIdentityButton =
     document.getElementById("nextToIdentityButton");
 
 // ============================================================
-// 最後一頁：身分元件
+// 第七頁：身分元件
 // ============================================================
 
 const identityPlayerName =
@@ -168,9 +192,25 @@ const identityTitle =
 const identityMessage =
     document.getElementById("identityMessage");
 
+const nextToRankingButton =
+    document.getElementById("nextToRankingButton");
+
+
+// ============================================================
+// 第八頁：排行榜元件
+// ============================================================
+
+const abyssPodium =
+    document.getElementById("abyssPodium");
+
+const teamHighPodium =
+    document.getElementById("teamHighPodium");
+
+const teamPassPodium =
+    document.getElementById("teamPassPodium");
+
 const restartButton =
     document.getElementById("restartButton");
-
 
 // ============================================================
 // 目前正在查看的玩家資料
@@ -1695,17 +1735,22 @@ function findBestTeamEvents(
 
     return {
 
-        best:
-            results.length >= 1
-                ? results[0]
-                : null,
+    best:
+        results.length >= 1
+            ? results[0]
+            : null,
 
-        secondBest:
-            results.length >= 2
-                ? results[1]
-                : null
+    secondBest:
+        results.length >= 2
+            ? results[1]
+            : null,
 
-    };
+    thirdBest:
+        results.length >= 3
+            ? results[2]
+            : null
+
+};
 
 }
 
@@ -1770,10 +1815,13 @@ function showBestTeamPage() {
 
 
     const bestResult =
-        results.best;
+    results.best;
 
     const secondBestResult =
         results.secondBest;
+
+    const thirdBestResult =
+        results.thirdBest;
 
 
     console.log(
@@ -1784,6 +1832,11 @@ function showBestTeamPage() {
     console.log(
         "第二擅長團本：",
         secondBestResult
+    );
+
+    console.log(
+    "第三擅長團本：",
+    thirdBestResult
     );
 
 
@@ -1817,6 +1870,11 @@ function showBestTeamPage() {
 
         bestTeamRank.textContent =
             bestResult.rank;
+
+        bestTeamScore.textContent =
+        bestResult.score.toLocaleString(
+            "zh-TW"
+        );
 
 
         bestTeamName.style.display =
@@ -1869,6 +1927,11 @@ function showBestTeamPage() {
         secondBestTeamRank.textContent =
             secondBestResult.rank;
 
+        secondBestTeamScore.textContent =
+        secondBestResult.score.toLocaleString(
+            "zh-TW"
+        );
+
 
         secondBestTeamArea.style.display =
             "block";
@@ -1877,6 +1940,50 @@ function showBestTeamPage() {
     else {
 
         secondBestTeamArea.style.display =
+            "none";
+
+    }
+
+    // ========================================================
+    // 第三擅長
+    // ========================================================
+
+    if (
+        thirdBestResult !== null &&
+        thirdBestResult.rank <= 25
+    ) {
+
+        // 上方只顯示團本種類
+        // 9/19飛鏢 → 飛鏢
+
+        thirdBestTeamName.textContent =
+            removeEventDate(
+                thirdBestResult.eventName
+            );
+
+
+        // 下方顯示完整場次
+        // 9/19飛鏢
+
+        thirdBestTeamEventName.textContent =
+            thirdBestResult.eventName;
+
+
+        thirdBestTeamRank.textContent =
+            thirdBestResult.rank;
+
+        thirdBestTeamScore.textContent =
+        thirdBestResult.score.toLocaleString(
+            "zh-TW"
+        );
+
+        thirdBestTeamArea.style.display =
+            "block";
+
+    }
+    else {
+
+        thirdBestTeamArea.style.display =
             "none";
 
     }
@@ -2266,19 +2373,11 @@ function showIdentityPage() {
     }
 
 
-    // --------------------------------------------------------
-    // 玩家名稱
-    // --------------------------------------------------------
-
     const playerName =
         String(
             currentPlayer[0]
         ).trim();
 
-
-    // --------------------------------------------------------
-    // 判斷身分
-    // --------------------------------------------------------
 
     const identity =
         getPlayerIdentity();
@@ -2302,7 +2401,7 @@ function showIdentityPage() {
 
 
     identityPlayerName.textContent =
-    playerName;
+        playerName;
 
     identityTitle.textContent =
         identity.title;
@@ -2311,30 +2410,575 @@ function showIdentityPage() {
         identity.message;
 
 
-    // ========================================================
-    // 寶箱小偷警告模式
-    // ========================================================
-
-    // 先清除警告模式
-    document.body.classList.remove(
-        "danger-mode"
+    showPage(
+        identityPage
     );
 
 
-    // 如果是寶箱小偷
-    if (
-        identity.title ===
-        "危險份子－寶箱小偷"
-    ) {
+    playIdentityEffect(
+        identity.title
+    );
 
-        document.body.classList.add(
-            "danger-mode"
+}
+
+// ============================================================
+// 第八頁排行榜
+// 共用：取得前三個「不同分數」
+//
+// 排名方式：密集排名
+//
+// 例如：
+// 10、10、9、9、8
+//
+// 會變成：
+// 第1名：10
+// 第2名：9
+// 第3名：8
+// ============================================================
+
+function getDenseTop3(results) {
+
+    // --------------------------------------------------------
+    // 排除沒有名字、沒有有效成績的玩家
+    // --------------------------------------------------------
+
+    const validResults =
+        results.filter(item => {
+
+            return (
+                item.name !== "" &&
+                Number.isFinite(item.score) &&
+                item.score > 0
+            );
+
+        });
+
+
+    // --------------------------------------------------------
+    // 找出所有不同的成績
+    // 並由高到低排序
+    // --------------------------------------------------------
+
+    const uniqueScores =
+        [
+            ...new Set(
+                validResults.map(
+                    item => item.score
+                )
+            )
+        ]
+        .sort(
+            (a, b) =>
+                b - a
+        )
+        .slice(
+            0,
+            3
         );
+
+
+    // --------------------------------------------------------
+    // 建立前三名
+    //
+    // 每一個名次可以有多位玩家
+    // --------------------------------------------------------
+
+    return uniqueScores.map(
+        (score, index) => {
+
+            const players =
+                validResults
+
+                    .filter(
+                        item =>
+                            item.score === score
+                    )
+
+                    .map(
+                        item =>
+                            item.name
+                    );
+
+
+            return {
+
+                rank:
+                    index + 1,
+
+                score:
+                    score,
+
+                players:
+                    players
+
+            };
+
+        }
+    );
+
+}
+
+// ============================================================
+// 深淵總傷害 TOP 3
+// ============================================================
+
+function getAbyssTop3() {
+
+    if (!currentData) {
+
+        return [];
 
     }
 
 
-    showPage(identityPage);
+    const abyssColumns =
+        getAbyssColumns(
+            currentData.headers
+        );
+
+
+    const results =
+        currentData.players.map(
+            player => {
+
+                const name =
+                    String(
+                        player[0]
+                    ).trim();
+
+
+                const score =
+                    calculateAbyssDamage(
+                        player,
+                        abyssColumns
+                    );
+
+
+                return {
+
+                    name:
+                        name,
+
+                    score:
+                        score
+
+                };
+
+            }
+        );
+
+
+    return getDenseTop3(
+        results
+    );
+
+}
+
+// ============================================================
+// 團本高標 TOP 3
+//
+// B欄 = index 1
+// ============================================================
+
+function getTeamHighTop3() {
+
+    if (!currentData) {
+
+        return [];
+
+    }
+
+
+    const results =
+        currentData.players.map(
+            player => {
+
+                return {
+
+                    name:
+                        String(
+                            player[0]
+                        ).trim(),
+
+                    score:
+                        parseNumber(
+                            player[1]
+                        )
+
+                };
+
+            }
+        );
+
+
+    return getDenseTop3(
+        results
+    );
+
+}
+
+// ============================================================
+// 團本達標 TOP 3
+//
+// E欄 = index 4
+// ============================================================
+
+function getTeamPassTop3() {
+
+    if (!currentData) {
+
+        return [];
+
+    }
+
+
+    const results =
+        currentData.players.map(
+            player => {
+
+                return {
+
+                    name:
+                        String(
+                            player[0]
+                        ).trim(),
+
+                    score:
+                        parseNumber(
+                            player[4]
+                        )
+
+                };
+
+            }
+        );
+
+
+    return getDenseTop3(
+        results
+    );
+
+}
+
+// ============================================================
+// 第八頁排行榜
+// 將排行榜資料畫成頒獎台
+//
+// 顯示順序：
+// 第2名 → 第1名 → 第3名
+//
+// 同分玩家會顯示在同一個名次
+// ============================================================
+
+function renderPodium(
+    container,
+    rankings,
+    type
+) {
+
+    // 先清空舊內容
+    container.innerHTML = "";
+
+
+    // --------------------------------------------------------
+    // 完全沒有排行榜資料
+    // --------------------------------------------------------
+
+    if (rankings.length === 0) {
+
+        const emptyMessage =
+            document.createElement("p");
+
+        emptyMessage.className =
+            "ranking-empty";
+
+        emptyMessage.textContent =
+            "本月暫無有效成績";
+
+        container.appendChild(
+            emptyMessage
+        );
+
+        return;
+
+    }
+
+
+    // --------------------------------------------------------
+    // 頒獎台顯示順序
+    //
+    // 視覺上：
+    // 第2名　第1名　第3名
+    // --------------------------------------------------------
+
+    const displayOrder =
+        [2, 1, 3];
+
+
+    displayOrder.forEach(rankNumber => {
+
+        const ranking =
+            rankings.find(
+                item =>
+                    item.rank === rankNumber
+            );
+
+
+        // 如果沒有這個名次就不建立
+        if (!ranking) {
+
+            return;
+
+        }
+
+
+        // ----------------------------------------------------
+        // 整個名次區塊
+        // ----------------------------------------------------
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            `podium-item podium-rank-${rankNumber}`;
+
+
+        // ----------------------------------------------------
+        // 玩家名稱區
+        // ----------------------------------------------------
+
+        const names =
+            document.createElement("div");
+
+        names.className =
+            "podium-names";
+
+
+        ranking.players.forEach(
+            playerName => {
+
+                const name =
+                    document.createElement("div");
+
+                name.className =
+                    "podium-player-name";
+
+                name.textContent =
+                    playerName;
+
+                names.appendChild(
+                    name
+                );
+
+            }
+        );
+
+
+        // ----------------------------------------------------
+        // 成績
+        // ----------------------------------------------------
+
+        const score =
+            document.createElement("div");
+
+        score.className =
+            "podium-score";
+
+
+        if (type === "abyss") {
+
+            score.textContent =
+                ranking.score.toLocaleString(
+                    "zh-TW"
+                ) +
+                " 傷害";
+
+        }
+        else {
+
+            score.textContent =
+                ranking.score +
+                " 次";
+
+        }
+
+
+        // ----------------------------------------------------
+        // 頒獎台柱子
+        // ----------------------------------------------------
+
+        const block =
+            document.createElement("div");
+
+        block.className =
+            "podium-block";
+
+
+        // ----------------------------------------------------
+        // 獎牌
+        // ----------------------------------------------------
+
+        const medal =
+            document.createElement("div");
+
+        medal.className =
+            "podium-medal";
+
+
+        if (rankNumber === 1) {
+
+            medal.textContent =
+                "🥇";
+
+        }
+        else if (rankNumber === 2) {
+
+            medal.textContent =
+                "🥈";
+
+        }
+        else {
+
+            medal.textContent =
+                "🥉";
+
+        }
+
+
+        // ----------------------------------------------------
+        // 名次文字
+        // ----------------------------------------------------
+
+        const rankText =
+            document.createElement("div");
+
+        rankText.className =
+            "podium-rank-text";
+
+        rankText.textContent =
+            `第 ${rankNumber} 名`;
+
+
+        block.appendChild(
+            medal
+        );
+
+        block.appendChild(
+            rankText
+        );
+
+
+        item.appendChild(
+            names
+        );
+
+        item.appendChild(
+            score
+        );
+
+        item.appendChild(
+            block
+        );
+
+
+        container.appendChild(
+            item
+        );
+
+    });
+
+}
+
+// ============================================================
+// 第八頁：顯示本月排行榜
+// ============================================================
+
+function showRankingPage() {
+
+    if (!currentData) {
+
+        console.error(
+            "沒有排行榜資料"
+        );
+
+        return;
+
+    }
+
+
+    // 離開身分頁時移除身分特效
+    clearIdentityEffects();
+
+
+    // --------------------------------------------------------
+    // 計算三個排行榜
+    // --------------------------------------------------------
+
+    const abyssRankings =
+        getAbyssTop3();
+
+    const teamHighRankings =
+        getTeamHighTop3();
+
+    const teamPassRankings =
+        getTeamPassTop3();
+
+
+    // --------------------------------------------------------
+    // 深淵排行榜
+    // --------------------------------------------------------
+
+    renderPodium(
+        abyssPodium,
+        abyssRankings,
+        "abyss"
+    );
+
+
+    // --------------------------------------------------------
+    // 團本高標排行榜
+    // --------------------------------------------------------
+
+    renderPodium(
+        teamHighPodium,
+        teamHighRankings,
+        "count"
+    );
+
+
+    // --------------------------------------------------------
+    // 團本達標排行榜
+    // --------------------------------------------------------
+
+    renderPodium(
+        teamPassPodium,
+        teamPassRankings,
+        "count"
+    );
+
+
+    // --------------------------------------------------------
+    // 顯示第八頁
+    // --------------------------------------------------------
+
+    showPage(
+        rankingPage
+    );
+
+}
+
+// ============================================================
+// 第七頁 → 第八頁
+// ============================================================
+
+nextToRankingButton.addEventListener(
+    "click",
+    () => {
+
+        showRankingPage();
+
+    }
+);
 
 // ============================================================
 // 重新查詢
@@ -2344,37 +2988,428 @@ restartButton.addEventListener(
     "click",
     () => {
 
-        document.body.classList.remove(
-        "danger-mode"
-    );
+        console.log("重新查詢按鈕已點擊");
 
-        // 清除目前玩家資料
-        currentPlayer =
-            null;
+        // 清除身分特效
+        clearIdentityEffects();
 
-        currentData =
-            null;
-
-        currentMonth =
-            null;
-
+        // 清除目前資料
+        currentPlayer = null;
+        currentData = null;
+        currentMonth = null;
 
         // 清空玩家名稱
-        playerNameInput.value =
-            "";
+        playerNameInput.value = "";
 
-
-        // 清空提示
+        // 清空訊息
         showMessage("");
 
-
-        // 回到第一頁
+        // 回到查詢頁
         showPage(searchPage);
 
-
-        // 游標回到名稱輸入框
+        // 游標回到輸入框
         playerNameInput.focus();
 
     }
 );
+
+
+// ============================================================
+// 清除所有身分特效
+// ============================================================
+
+function clearIdentityEffects() {
+
+    document.body.classList.remove(
+        "abyss-king-mode",
+        "team-master-mode",
+        "qualified-mode",
+        "watch-mode",
+        "danger-mode"
+    );
+
+
+    const effectLayer =
+        document.getElementById(
+            "effectLayer"
+        );
+
+
+    if (effectLayer) {
+
+        effectLayer.innerHTML = "";
+
+    }
+
 }
+
+// ============================================================
+// 一般慶祝粒子
+//
+// 用於：
+// 團本高手
+// 合格族員
+// ============================================================
+
+function createCelebrationParticles(
+    amount = 30
+) {
+
+    const effectLayer =
+        document.getElementById(
+            "effectLayer"
+        );
+
+
+    if (!effectLayer) {
+
+        return;
+
+    }
+
+
+    const symbols = [
+        "✨",
+        "★",
+        "●",
+        "◆",
+        "✦"
+    ];
+
+
+    for (
+        let i = 0;
+        i < amount;
+        i++
+    ) {
+
+        const particle =
+            document.createElement(
+                "span"
+            );
+
+
+        particle.className =
+            "effect-particle";
+
+
+        particle.textContent =
+            symbols[
+                Math.floor(
+                    Math.random() *
+                    symbols.length
+                )
+            ];
+
+
+        particle.style.left =
+            Math.random() * 100 +
+            "%";
+
+
+        particle.style.fontSize =
+            (
+                12 +
+                Math.random() * 16
+            ) +
+            "px";
+
+
+        particle.style.animationDuration =
+            (
+                1.8 +
+                Math.random() * 1.5
+            ) +
+            "s";
+
+
+        particle.style.animationDelay =
+            (
+                Math.random() * 0.5
+            ) +
+            "s";
+
+
+        effectLayer.appendChild(
+            particle
+        );
+
+
+        // 幾秒後自動移除
+        setTimeout(
+            () => {
+
+                particle.remove();
+
+            },
+            4000
+        );
+
+    }
+
+}
+
+// ============================================================
+// 深淵巨佬
+// 金色 Boss 爆發
+// ============================================================
+
+function createAbyssBossEffect() {
+
+    const effectLayer =
+        document.getElementById(
+            "effectLayer"
+        );
+
+
+    if (!effectLayer) {
+
+        return;
+
+    }
+
+
+    const symbols = [
+        "✦",
+        "★",
+        "✨",
+        "◆",
+        "✧"
+    ];
+
+
+    const particleCount =
+        36;
+
+
+    for (
+        let i = 0;
+        i < particleCount;
+        i++
+    ) {
+
+        const particle =
+            document.createElement(
+                "span"
+            );
+
+
+        particle.className =
+            "abyss-particle";
+
+
+        particle.textContent =
+            symbols[
+                Math.floor(
+                    Math.random() *
+                    symbols.length
+                )
+            ];
+
+
+        // ----------------------------------------------------
+        // 一半從左邊
+        // 一半從右邊
+        // ----------------------------------------------------
+
+        const fromLeft =
+            i <
+            particleCount / 2;
+
+
+        particle.style.left =
+            fromLeft
+                ? "5%"
+                : "95%";
+
+
+        particle.style.top =
+            (
+                25 +
+                Math.random() * 50
+            ) +
+            "%";
+
+
+        // ----------------------------------------------------
+        // 移動方向
+        // ----------------------------------------------------
+
+        const moveX =
+            fromLeft
+                ? 100 + Math.random() * 250
+                : -(100 + Math.random() * 250);
+
+
+        const moveY =
+            -150 +
+            Math.random() * 300;
+
+
+        particle.style.setProperty(
+            "--move-x",
+            moveX + "px"
+        );
+
+
+        particle.style.setProperty(
+            "--move-y",
+            moveY + "px"
+        );
+
+
+        particle.style.fontSize =
+            (
+                16 +
+                Math.random() * 22
+            ) +
+            "px";
+
+
+        particle.style.animationDelay =
+            (
+                Math.random() * 0.25
+            ) +
+            "s";
+
+
+        effectLayer.appendChild(
+            particle
+        );
+
+
+        setTimeout(
+            () => {
+
+                particle.remove();
+
+            },
+            2000
+        );
+
+    }
+
+}
+
+// ============================================================
+// 根據身分播放特效
+// ============================================================
+
+function playIdentityEffect(
+    identityTitle
+) {
+
+    // 先清除之前的特效
+    clearIdentityEffects();
+
+
+    // ========================================================
+    // 深淵巨佬
+    // ========================================================
+
+    if (
+        identityTitle ===
+        "深淵巨佬"
+    ) {
+
+        document.body.classList.add(
+            "abyss-king-mode"
+        );
+
+
+        // Boss 金色爆發
+        createAbyssBossEffect();
+
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // 團本高手
+    // ========================================================
+
+    if (
+        identityTitle ===
+        "團本高手"
+    ) {
+
+        document.body.classList.add(
+            "team-master-mode"
+        );
+
+
+        createCelebrationParticles(
+            25
+        );
+
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // 合格族員
+    // ========================================================
+
+    if (
+        identityTitle ===
+        "合格族員"
+    ) {
+
+        document.body.classList.add(
+            "qualified-mode"
+        );
+
+
+        createCelebrationParticles(
+            18
+        );
+
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // 觀察名單
+    // ========================================================
+
+    if (
+        identityTitle ===
+        "觀察名單"
+    ) {
+
+        document.body.classList.add(
+            "watch-mode"
+        );
+
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // 寶箱小偷
+    // ========================================================
+
+    if (
+        identityTitle ===
+        "危險份子－寶箱小偷"
+    ) {
+
+        document.body.classList.add(
+            "danger-mode"
+        );
+
+
+        return;
+
+    }
+
+}
+

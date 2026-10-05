@@ -311,6 +311,11 @@
                     class="best-team-rank-area"
                 >
 
+                <p class="best-team-score-text">
+                    本場成績
+                    <strong id="bestTeamScore">0</strong>
+                    分
+                </p>
                     <p class="best-team-description">
 
                         你在
@@ -363,6 +368,12 @@
                         -
                     </div>
 
+                    <p class="best-team-score-text">
+                        本場成績
+                        <strong id="secondBestTeamScore">0</strong>
+                        分
+                    </p>
+
 
                     <p class="best-team-description">
 
@@ -389,6 +400,61 @@
 
                     </div>
 
+
+                    <p class="best-team-description">
+                        的成績
+                    </p>
+
+                </div>
+
+                <!-- ======================================
+                    第三擅長團本
+                ======================================= -->
+                <div
+                    id="thirdBestTeamArea"
+                    class="third-best-team-area"
+                >
+
+                    <p class="third-best-label">
+                        第三擅長團本
+                    </p>
+
+                    <div
+                        id="thirdBestTeamName"
+                        class="third-best-team-name"
+                    >
+                        -
+                    </div>
+
+                    <p class="best-team-score-text">
+                        本場成績
+                        <strong id="thirdBestTeamScore">0</strong>
+                        分
+                    </p>
+
+                    <p class="best-team-description">
+
+                        你在
+
+                        <strong id="thirdBestTeamEventName">
+                            XX
+                        </strong>
+
+                        團本中取得了
+
+                    </p>
+
+                    <div class="rank-number">
+
+                        家族第
+
+                        <strong id="thirdBestTeamRank">
+                            0
+                        </strong>
+
+                        名
+
+                    </div>
 
                     <p class="best-team-description">
                         的成績
@@ -516,6 +582,85 @@
 
 
             <button
+                id="nextToRankingButton"
+                class="next-button"
+            >
+                查看本月排行榜 →
+            </button>
+
+        </section>
+        <!-- ======================================
+            第八頁：本月排行榜
+        ======================================= -->
+
+        <section
+            id="rankingPage"
+            class="card page"
+        >
+
+            <p class="page-label">
+                本月排行榜
+            </p>
+
+            <h1>
+                🏆 本月榮耀榜
+            </h1>
+
+            <p class="subtitle">
+                本月家族前三名
+            </p>
+
+
+            <!-- 深淵總傷害排行榜 -->
+            <div class="ranking-section">
+
+                <h2 class="ranking-title">
+                    ⚔️ 深淵總傷害 TOP 3
+                </h2>
+
+                <div
+                    id="abyssPodium"
+                    class="podium"
+                >
+                </div>
+
+            </div>
+
+
+            <!-- 團本高標排行榜 -->
+            <div class="ranking-section">
+
+                <h2 class="ranking-title">
+                    🔥 團本高標 TOP 3
+                </h2>
+
+                <div
+                    id="teamHighPodium"
+                    class="podium"
+                >
+                </div>
+
+            </div>
+
+
+            <!-- 團本達標排行榜 -->
+            <div class="ranking-section">
+
+                <h2 class="ranking-title">
+                    ⭐ 團本達標 TOP 3
+                </h2>
+
+                <div
+                    id="teamPassPodium"
+                    class="podium"
+                >
+                </div>
+
+            </div>
+
+
+            <!-- 重新查詢 -->
+            <button
                 id="restartButton"
                 class="next-button"
             >
@@ -526,6 +671,10 @@
 
     </main>
 
+    <!-- ======================================
+        身分特效粒子容器
+    ======================================= -->
+    <div id="effectLayer"></div>
 
     <script src="script.js"></script>
 
