@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>家族每月結算</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <!-- ======================================
+             第一頁：查詢
+        ======================================= -->
+        <section
+            id="searchPage"
+            class="card page active"
+        >
+
+            <h1>家族每月結算</h1>
+
+            <p class="subtitle">
+                輸入你的遊戲名稱，查看本月結算成績
+            </p>
+
+
+            <div class="form-group">
+
+                <label for="monthSelect">
+                    結算月份
+                </label>
+
+                <select id="monthSelect">
+
+                    <option value="">
+                        月份載入中...
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="playerName">
+                    遊戲名稱
+                </label>
+
+                <input
+                    type="text"
+                    id="playerName"
+                    placeholder="請輸入遊戲名稱"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <button id="startButton">
+                開始我的結算
+            </button>
+
+
+            <div id="message"></div>
+
+        </section>
+
+
+
+        <!-- ======================================
+             第二頁：本月總達標
+        ======================================= -->
+        <section
+            id="totalPage"
+            class="card page"
+        >
+
+            <p class="page-label">
+                本月總結
+            </p>
+
+            <h1 id="totalPlayerName">
+                玩家名稱
+            </h1>
+
+
+            <div class="result-content">
+
+                <p class="result-title">
+                    你這月團本跟深淵總共達標了
+                </p>
+
+
+                <div class="big-number">
+
+                    <span id="totalAchieved">
+                        0
+                    </span>
+
+                    <span class="number-unit">
+                        次
+                    </span>
+
+                </div>
+
+
+                <p class="result-detail">
+
+                    滿是
+
+                    <strong id="totalPossible">
+                        0
+                    </strong>
+
+                    次
+
+                </p>
+
+            </div>
+
+
+            <button
+                id="nextToAbyssButton"
+                class="next-button"
+            >
+                下一頁 →
+            </button>
+
+        </section>
+        <!-- ======================================
+            第三頁：深淵總傷害
+        ======================================= -->
+        <section
+            id="abyssPage"
+            class="card page"
+        >
+
+            <p class="page-label">
+                深淵成績
+            </p>
+
+            <h1 id="abyssPlayerName">
+                玩家名稱
+            </h1>
+
+
+            <div class="result-content">
+
+                <p class="result-title">
+                    你這個月深淵總共打出了
+                </p>
+
+
+                <div
+                    id="abyssDamage"
+                    class="damage-number"
+                >
+                    0
+                </div>
+
+                <p class="damage-unit">
+                    點傷害
+                </p>
+
+
+                <div class="rank-area">
+
+                    <p class="rank-label">
+                        家族排名
+                    </p>
+
+                    <div class="rank-number">
+
+                        第
+
+                        <strong id="abyssRank">
+                            0
+                        </strong>
+
+                        名
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="nextToTeamButton"
+                class="next-button"
+            >
+                下一頁 →
+            </button>
+
+        </section>
+        <!-- ======================================
+            第四頁：團本高標
+        ======================================= -->
+        <section
+            id="teamPage"
+            class="card page"
+        >
+
+            <p class="page-label">
+                團本成績
+            </p>
+
+            <h1 id="teamPlayerName">
+                玩家名稱
+            </h1>
+
+
+            <div class="result-content">
+
+                <p class="result-title">
+                    你這個月有
+                </p>
+
+
+                <div class="big-number">
+
+                    <span id="teamHighCount">
+                        0
+                    </span>
+
+                    <span class="number-unit">
+                        次
+                    </span>
+
+                </div>
+
+
+                <p class="result-title">
+                    團本為高標
+                </p>
+
+
+                <p class="result-detail">
+
+                    本月共有
+
+                    <strong id="teamTotalCount">
+                        0
+                    </strong>
+
+                    次團本
+
+                </p>
+
+
+                <div class="team-comment-area">
+
+                    <p id="teamComment">
+                        評語
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="nextToBestTeamButton"
+                class="next-button"
+            >
+                下一頁 →
+            </button>
+
+        </section>
+        <!-- ======================================
+            第五頁：最擅長團本
+        ======================================= -->
+        <section
+            id="bestTeamPage"
+            class="card page"
+        >
+
+            <p class="page-label">
+                團本排行
+            </p>
+
+            <h1 id="bestTeamPlayerName">
+                玩家名稱
+            </h1>
+
+
+            <div class="result-content">
+
+                <p class="result-title">
+                    最擅長團本
+                </p>
+
+
+                <div
+                    id="bestTeamName"
+                    class="best-team-name"
+                >
+                    -
+                </div>
+
+
+                <div
+                    id="bestTeamRankArea"
+                    class="best-team-rank-area"
+                >
+
+                    <p class="best-team-description">
+
+                        你在
+
+                        <strong id="bestTeamEventName">
+                            XX
+                        </strong>
+
+                        團本中取得了
+
+                    </p>
+
+
+                    <div class="rank-number">
+
+                        家族第
+
+                        <strong id="bestTeamRank">
+                            0
+                        </strong>
+
+                        名
+
+                    </div>
+
+
+                    <p class="best-team-description">
+                        的成績
+                    </p>
+
+                </div>
+
+                <!-- ======================================
+                    第二擅長團本
+                ======================================= -->
+                <div
+                    id="secondBestTeamArea"
+                    class="second-best-team-area"
+                >
+
+                    <p class="second-best-label">
+                        第二擅長團本
+                    </p>
+
+
+                    <div
+                        id="secondBestTeamName"
+                        class="second-best-team-name"
+                    >
+                        -
+                    </div>
+
+
+                    <p class="best-team-description">
+
+                        你在
+
+                        <strong id="secondBestTeamEventName">
+                            XX
+                        </strong>
+
+                        團本中取得了
+
+                    </p>
+
+
+                    <div class="rank-number">
+
+                        家族第
+
+                        <strong id="secondBestTeamRank">
+                            0
+                        </strong>
+
+                        名
+
+                    </div>
+
+
+                    <p class="best-team-description">
+                        的成績
+                    </p>
+
+                </div>
+
+
+                <!-- 沒有符合前25名時顯示 -->
+                <div
+                    id="noBestTeamMessage"
+                    class="no-best-team-message"
+                >
+                    本月暫時沒有進入家族前25名的團本成績
+                </div>
+
+            </div>
+
+
+            <button
+                id="nextToAbsentButton"
+                class="next-button"
+            >
+                下一頁 →
+            </button>
+
+        </section>
+        <!-- ======================================
+            第六頁：缺席統計
+        ======================================= -->
+        <section
+            id="absentPage"
+            class="card page"
+        >
+
+            <p class="page-label">
+                出席狀況
+            </p>
+
+            <h1 id="absentPlayerName">
+                玩家名稱
+            </h1>
+
+
+            <div class="result-content">
+
+                <p class="result-title">
+                    你這個月缺席了
+                </p>
+
+
+                <div class="big-number">
+
+                    <span id="absentCount">
+                        0
+                    </span>
+
+                    <span class="number-unit">
+                        次
+                    </span>
+
+                </div>
+
+
+                <div class="absent-comment-area">
+
+                    <p id="absentComment">
+                        評語
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="nextToIdentityButton"
+                class="next-button"
+            >
+                查看我的本月身分 →
+            </button>
+
+        </section>
+        <!-- ======================================
+            最後一頁：本月身分
+        ======================================= -->
+        <section
+            id="identityPage"
+            class="card page"
+        >
+
+            <p class="page-label">
+                本月結算身分
+            </p>
+
+            <h1 id="identityPlayerName">
+                玩家名稱
+            </h1>
+
+
+            <div class="identity-content">
+
+                <p class="identity-label">
+                    你的本月身分是
+                </p>
+
+
+                <div
+                    id="identityTitle"
+                    class="identity-title"
+                >
+                    身分
+                </div>
+
+
+                <div class="identity-message-area">
+
+                    <p id="identityMessage">
+                        身分說明
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="restartButton"
+                class="next-button"
+            >
+                重新查詢
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

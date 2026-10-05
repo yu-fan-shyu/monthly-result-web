@@ -1,0 +1,525 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    font-family:
+        "Microsoft JhengHei",
+        Arial,
+        sans-serif;
+
+    background: #f4f6f8;
+
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    padding: 20px;
+}
+
+.card {
+    width: 100%;
+    max-width: 450px;
+
+    margin: auto;
+
+    background: white;
+
+    padding: 40px 30px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.08);
+
+    text-align: center;
+}
+
+h1 {
+    margin-top: 0;
+    margin-bottom: 10px;
+
+    font-size: 30px;
+}
+
+.subtitle {
+    margin-bottom: 35px;
+
+    color: #777;
+
+    font-size: 15px;
+}
+
+.form-group {
+    text-align: left;
+
+    margin-bottom: 22px;
+}
+
+label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-weight: bold;
+}
+
+select,
+input {
+    width: 100%;
+
+    padding: 14px;
+
+    border: 1px solid #ccc;
+    border-radius: 10px;
+
+    font-size: 16px;
+
+    background: white;
+}
+
+select:focus,
+input:focus {
+    outline: none;
+
+    border-color: #555;
+}
+
+button {
+    width: 100%;
+
+    padding: 15px;
+
+    margin-top: 10px;
+
+    border: none;
+    border-radius: 10px;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+#message {
+    min-height: 24px;
+
+    margin-top: 18px;
+
+    font-size: 14px;
+}
+.suggestion-button {
+    width: 100%;
+
+    margin-top: 10px;
+    padding: 12px;
+
+    background: #f5f5f5;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+.suggestion-button:hover {
+    background: #eeeeee;
+}
+
+/* ==========================================
+   頁面切換
+========================================== */
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+
+/* ==========================================
+   結算頁面
+========================================== */
+
+.page-label {
+    margin: 0 0 10px;
+
+    font-size: 14px;
+    color: #888;
+
+    letter-spacing: 2px;
+}
+
+.result-content {
+    margin-top: 45px;
+    margin-bottom: 45px;
+}
+
+.result-title {
+    font-size: 19px;
+
+    line-height: 1.7;
+
+    margin-bottom: 25px;
+}
+
+.big-number {
+    margin: 20px 0;
+
+    font-size: 70px;
+    font-weight: bold;
+
+    line-height: 1;
+}
+
+.number-unit {
+    font-size: 22px;
+    font-weight: normal;
+}
+
+.result-detail {
+    margin-top: 25px;
+
+    font-size: 18px;
+
+    color: #666;
+}
+
+.result-detail strong {
+    font-size: 24px;
+
+    color: #222;
+}
+
+.next-button {
+    margin-top: 20px;
+}
+
+
+/* ==========================================
+   頁面進入動畫
+========================================== */
+
+.page.active {
+    animation: pageFadeIn 0.45s ease;
+}
+
+@keyframes pageFadeIn {
+
+    from {
+        opacity: 0;
+
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+
+}
+
+/* ==========================================
+   深淵成績
+========================================== */
+
+.damage-number {
+    margin-top: 25px;
+
+    font-size: 42px;
+    font-weight: bold;
+
+    word-break: break-all;
+}
+
+.damage-unit {
+    margin-top: 8px;
+
+    font-size: 16px;
+    color: #777;
+}
+
+.rank-area {
+    margin-top: 45px;
+
+    padding-top: 30px;
+
+    border-top: 1px solid #eeeeee;
+}
+
+.rank-label {
+    margin-bottom: 10px;
+
+    color: #777;
+
+    font-size: 15px;
+}
+
+.rank-number {
+    font-size: 24px;
+}
+
+.rank-number strong {
+    margin: 0 5px;
+
+    font-size: 48px;
+}
+
+/* ==========================================
+   第四頁：團本高標
+========================================== */
+
+.team-comment-area {
+    margin-top: 35px;
+
+    padding: 20px;
+
+    background: #f7f7f7;
+
+    border-radius: 12px;
+}
+
+#teamComment {
+    margin: 0;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    line-height: 1.7;
+}
+
+/* ==========================================
+   第五頁：最擅長團本
+========================================== */
+
+.best-team-name {
+    margin: 25px 0;
+
+    font-size: 36px;
+    font-weight: bold;
+
+    line-height: 1.4;
+}
+
+.best-team-rank-area {
+    margin-top: 30px;
+
+    padding: 25px 15px;
+
+    background: #f7f7f7;
+
+    border-radius: 12px;
+}
+
+.best-team-description {
+    margin: 10px 0;
+
+    font-size: 17px;
+
+    line-height: 1.7;
+}
+
+.best-team-description strong {
+    font-size: 20px;
+}
+
+.no-best-team-message {
+    display: none;
+
+    margin-top: 30px;
+
+    padding: 20px;
+
+    background: #f7f7f7;
+
+    border-radius: 12px;
+
+    font-size: 18px;
+
+    line-height: 1.7;
+}
+
+/* ==========================================
+   第二擅長團本
+========================================== */
+
+.second-best-team-area {
+    display: none;
+
+    margin-top: 35px;
+    padding-top: 30px;
+
+    border-top: 1px solid #eeeeee;
+}
+
+.second-best-label {
+    margin-bottom: 15px;
+
+    color: #777;
+
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.second-best-team-name {
+    margin: 20px 0;
+
+    font-size: 30px;
+    font-weight: bold;
+
+    line-height: 1.4;
+}
+
+/* ==========================================
+   第六頁：缺席統計
+========================================== */
+
+.absent-comment-area {
+    margin-top: 35px;
+
+    padding: 20px;
+
+    background: #f7f7f7;
+
+    border-radius: 12px;
+}
+
+#absentComment {
+    margin: 0;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    line-height: 1.7;
+}
+
+/* ==========================================
+   最後一頁：本月身分
+========================================== */
+
+.identity-content {
+    margin-top: 45px;
+    margin-bottom: 40px;
+}
+
+.identity-label {
+    margin-bottom: 18px;
+
+    color: #777;
+
+    font-size: 17px;
+}
+
+.identity-title {
+    margin: 25px 0 35px;
+
+    font-size: 38px;
+    font-weight: bold;
+
+    line-height: 1.4;
+}
+
+.identity-message-area {
+    padding: 22px;
+
+    background: #f7f7f7;
+
+    border-radius: 12px;
+}
+
+#identityMessage {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.8;
+
+    white-space: pre-line;
+}
+
+/* ==========================================
+   寶箱小偷：警告模式
+========================================== */
+
+/* 整個網頁變成紅色警告背景 */
+body.danger-mode {
+    background: #b71c1c;
+
+    transition: background 0.5s ease;
+}
+
+
+/* 寶箱小偷卡片 */
+body.danger-mode #identityPage {
+    border: 3px solid #d32f2f;
+
+    box-shadow:
+        0 0 20px rgba(211, 47, 47, 0.5),
+        0 8px 30px rgba(0, 0, 0, 0.25);
+
+    animation: dangerShake 0.1s linear 4;
+}
+
+
+/* 身分名稱變紅 */
+body.danger-mode #identityTitle {
+    color: #d32f2f;
+}
+
+
+/* 警告訊息淡紅底 */
+body.danger-mode .identity-message-area {
+    background: #ffebee;
+}
+
+
+/* ==========================================
+   左右晃動動畫
+========================================== */
+
+@keyframes dangerShake {
+
+    0% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-10px) rotate(-1deg);
+    }
+
+    40% {
+        transform: translateX(10px) rotate(1deg);
+    }
+
+    60% {
+        transform: translateX(-8px) rotate(-1deg);
+    }
+
+    80% {
+        transform: translateX(8px) rotate(1deg);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+
+}
