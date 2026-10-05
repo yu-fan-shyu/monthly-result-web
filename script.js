@@ -192,6 +192,15 @@ const identityTitle =
 const identityMessage =
     document.getElementById("identityMessage");
 
+const secretIdentityBox =
+    document.getElementById("secretIdentityBox");
+
+const secretIdentityTitle =
+    document.getElementById("secretIdentityTitle");
+
+const secretIdentityMessage =
+    document.getElementById("secretIdentityMessage");
+
 const nextToRankingButton =
     document.getElementById("nextToRankingButton");
 
@@ -2353,6 +2362,59 @@ function getPlayerIdentity() {
 }
 
 // ============================================================
+// 尋找玩家的隱藏身分
+// ============================================================
+
+function getSecretIdentity(playerName) {
+
+    // 沒有月份資料
+    if (!currentData) {
+        return null;
+    }
+
+
+    // API 沒有隱藏身分資料
+    if (!Array.isArray(currentData.secretIdentities)) {
+        return null;
+    }
+
+
+    const targetName =
+        String(playerName ?? "").trim();
+
+
+    // 尋找遊戲名稱完全相同的玩家
+    const secret =
+        currentData.secretIdentities.find(row => {
+
+            const secretPlayerName =
+                String(row[0] ?? "").trim();
+
+            return secretPlayerName === targetName;
+
+        });
+
+
+    // 找不到
+    if (!secret) {
+        return null;
+    }
+
+
+    // 找到後整理成比較好使用的格式
+    return {
+
+        title:
+            String(secret[1] ?? "").trim(),
+
+        message:
+            String(secret[2] ?? "").trim()
+
+    };
+
+}
+
+// ============================================================
 // 最後一頁
 // 本月身分
 // ============================================================
@@ -2409,6 +2471,43 @@ function showIdentityPage() {
     identityMessage.textContent =
         identity.message;
 
+
+    // ============================================================
+    // 檢查隱藏身分
+    // ============================================================
+
+    const secretIdentity =
+        getSecretIdentity(
+            currentPlayer[0]
+        );
+
+
+    if (secretIdentity) {
+
+        // 有隱藏身分
+        secretIdentityTitle.textContent =
+            secretIdentity.title;
+
+        secretIdentityMessage.textContent =
+            secretIdentity.message;
+
+        secretIdentityBox.style.display =
+            "block";
+
+    }
+    else {
+
+        // 沒有隱藏身分
+        secretIdentityTitle.textContent =
+            "";
+
+        secretIdentityMessage.textContent =
+            "";
+
+        secretIdentityBox.style.display =
+            "none";
+
+    }
 
     showPage(
         identityPage
