@@ -382,21 +382,36 @@ startButton.addEventListener("click", async () => {
 
 
         // ----------------------------------------------------
-        // 尋找玩家
+        // 尋找正式族員
         // ----------------------------------------------------
 
-        const result =
+        const memberResult =
             findPlayer(
                 playerName,
                 data.players
             );
 
 
-        // 完全符合
-        if (result.type === "exact") {
+        // ----------------------------------------------------
+        // 尋找非成員
+        // ----------------------------------------------------
+
+        const nonMemberResult =
+            findNonMember(
+                playerName,
+                data.nonMembers
+            );
+
+        // ============================================================
+        // 1. 正式族員完全符合
+        // ============================================================
+
+        if (
+            memberResult.type === "exact"
+        ) {
 
             handlePlayerFound(
-                result.player,
+                memberResult.player,
                 data,
                 month
             );
@@ -406,11 +421,16 @@ startButton.addEventListener("click", async () => {
         }
 
 
-        // 找到相似名稱
-        if (result.type === "similar") {
+        // ============================================================
+        // 2. 非成員完全符合
+        // ============================================================
 
-            showSuggestions(
-                result.players,
+        if (
+            nonMemberResult.type === "exact"
+        ) {
+
+            handleNonMemberFound(
+                nonMemberResult.name,
                 data,
                 month
             );
@@ -420,11 +440,41 @@ startButton.addEventListener("click", async () => {
         }
 
 
-        // 完全找不到
+        // ============================================================
+        // 3. 都沒有完全符合
+        //    合併族員與非成員的模糊搜尋結果
+        // ============================================================
+
+        const suggestions =
+            combineSearchSuggestions(
+                memberResult,
+                nonMemberResult
+            );
+
+
+        if (
+            suggestions.length > 0
+        ) {
+
+            showCombinedSuggestions(
+                suggestions,
+                data,
+                month
+            );
+
+            return;
+
+        }
+
+
+        // ============================================================
+        // 4. 完全找不到
+        // ============================================================
+
         showMessage(
             `找不到與「${playerName}」相近的遊戲名稱，請確認後重新輸入。`
         );
-
+            
     }
     catch (error) {
 
@@ -565,6 +615,212 @@ function findPlayer(inputName, players) {
     return {
         type: "none"
     };
+
+}
+
+// ============================================================
+// 尋找非成員
+// ============================================================
+
+function findNonMember(
+    inputName,
+    nonMembers
+) {
+
+    if (!Array.isArray(nonMembers)) {
+
+        return {
+            type: "none"
+        };
+
+    }
+
+
+    const input =
+        normalizeName(inputName);
+
+
+    // --------------------------------------------------------
+    // 完全符合
+    // --------------------------------------------------------
+
+    const exactName =
+        nonMembers.find(name => {
+
+            return (
+                normalizeName(name) ===
+                input
+            );
+
+        });
+
+
+    if (exactName) {
+
+        return {
+            type: "exact",
+            name: String(exactName).trim()
+        };
+
+    }
+
+
+    // --------------------------------------------------------
+    // 模糊搜尋
+    // --------------------------------------------------------
+
+    console.log("非成員原始資料：", nonMembers);
+
+    const results =
+        nonMembers
+
+            .map(name => {
+
+                const cleanName =
+                    String(name).trim();
+
+
+                return {
+
+                    name:
+                        cleanName,
+
+                    score:
+                        similarity(
+                            input,
+                            normalizeName(cleanName)
+                        )
+
+                };
+
+            })
+
+            // 相似度至少 40%
+            .filter(
+                item =>
+                    item.score >= 0.4
+            )
+
+            // 相似度由高到低
+            .sort(
+                (a, b) =>
+                    b.score - a.score
+            )
+
+            // 最多三個
+            .slice(
+                0,
+                3
+            );
+
+
+    if (results.length > 0) {
+
+        return {
+            type: "similar",
+            players: results
+        };
+
+    }
+
+
+    return {
+        type: "none"
+    };
+
+}
+
+// ============================================================
+// 合併族員與非成員的模糊搜尋結果
+// ============================================================
+
+function combineSearchSuggestions(
+    memberResult,
+    nonMemberResult
+) {
+
+    const suggestions = [];
+
+
+    // --------------------------------------------------------
+    // 正式族員
+    // --------------------------------------------------------
+
+    if (
+        memberResult.type === "similar"
+    ) {
+
+        memberResult.players.forEach(
+            item => {
+
+                suggestions.push({
+
+                    type:
+                        "member",
+
+                    name:
+                        item.name,
+
+                    player:
+                        item.player,
+
+                    score:
+                        item.score
+
+                });
+
+            }
+        );
+
+    }
+
+
+    // --------------------------------------------------------
+    // 非成員
+    // --------------------------------------------------------
+
+    if (
+        nonMemberResult.type === "similar"
+    ) {
+
+        nonMemberResult.players.forEach(
+            item => {
+
+                suggestions.push({
+
+                    type:
+                        "nonMember",
+
+                    name:
+                        item.name,
+
+                    score:
+                        item.score
+
+                });
+
+            }
+        );
+
+    }
+
+
+    // --------------------------------------------------------
+    // 全部一起依照相似度排序
+    // 最多顯示三個
+    // --------------------------------------------------------
+
+    return suggestions
+
+        .sort(
+            (a, b) =>
+                b.score - a.score
+        )
+
+        .slice(
+            0,
+            3
+        );
 
 }
 
@@ -776,6 +1032,100 @@ function showSuggestions(
 
 }
 
+// ============================================================
+// 顯示族員 + 非成員的模糊搜尋建議
+// ============================================================
+
+function showCombinedSuggestions(
+    results,
+    data,
+    month
+) {
+
+    message.innerHTML = "";
+
+
+    const title =
+        document.createElement("div");
+
+    title.textContent =
+        "找不到完全相同的名稱，你是不是要找：";
+
+    message.appendChild(
+        title
+    );
+
+
+    results.forEach(result => {
+
+        const button =
+            document.createElement("button");
+
+        button.type =
+            "button";
+
+        button.textContent =
+            result.name;
+
+        button.className =
+            "suggestion-button";
+
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                playerNameInput.value =
+                    result.name;
+
+
+                // --------------------------------------------
+                // 正式族員
+                // --------------------------------------------
+
+                if (
+                    result.type === "member"
+                ) {
+
+                    handlePlayerFound(
+                        result.player,
+                        data,
+                        month
+                    );
+
+                    return;
+
+                }
+
+
+                // --------------------------------------------
+                // 非成員
+                // --------------------------------------------
+
+                if (
+                    result.type === "nonMember"
+                ) {
+
+                    handleNonMemberFound(
+                        result.name,
+                        data,
+                        month
+                    );
+
+                }
+
+            }
+        );
+
+
+        message.appendChild(
+            button
+        );
+
+    });
+
+}
+
 
 // ============================================================
 // 成功找到玩家
@@ -814,6 +1164,56 @@ function handlePlayerFound(
 
 
     showTotalPage();
+
+}
+
+// ============================================================
+// 成功找到非成員
+// ============================================================
+
+function handleNonMemberFound(
+    playerName,
+    data,
+    month
+) {
+
+    // --------------------------------------------------------
+    // 儲存目前月份資料
+    // --------------------------------------------------------
+
+    currentData =
+        data;
+
+    currentMonth =
+        month;
+
+
+    // --------------------------------------------------------
+    // 非成員沒有成績
+    //
+    // 但我們仍然建立 currentPlayer
+    // currentPlayer[0] = 遊戲名稱
+    //
+    // 這樣原本的隱藏身分功能可以繼續使用
+    // --------------------------------------------------------
+
+    currentPlayer =
+        [
+            playerName
+        ];
+
+
+    console.log(
+        "目前非成員：",
+        currentPlayer[0]
+    );
+
+
+    // --------------------------------------------------------
+    // 直接跳到第七頁
+    // --------------------------------------------------------
+
+    showNonMemberIdentityPage();
 
 }
 
@@ -2421,6 +2821,10 @@ function getSecretIdentity(playerName) {
 
 function showIdentityPage() {
 
+    identityPage.classList.remove(
+        "nailong-theme"
+    );
+
     if (
         !currentPlayer ||
         !currentData
@@ -2516,6 +2920,121 @@ function showIdentityPage() {
 
     playIdentityEffect(
         identity.title
+    );
+
+}
+
+// ============================================================
+// 第七頁：非成員身分
+// ============================================================
+
+function showNonMemberIdentityPage() {
+
+    if (
+        !currentPlayer ||
+        !currentData
+    ) {
+
+        console.error(
+            "沒有非成員資料"
+        );
+
+        return;
+
+    }
+
+
+    const playerName =
+        String(
+            currentPlayer[0] ?? ""
+        ).trim();
+
+    // ========================================================
+    // 狗歐專屬奶龍主題
+    // ========================================================
+
+    if (
+        normalizeName(playerName) ===
+        normalizeName("狗歐")
+    ) {
+
+        identityPage.classList.add(
+            "nailong-theme"
+        );
+
+    }
+    else {
+
+        identityPage.classList.remove(
+            "nailong-theme"
+        );
+
+    }
+
+
+    // ========================================================
+    // 非族員身分
+    // ========================================================
+
+    identityPlayerName.textContent =
+        playerName;
+
+    identityTitle.textContent =
+        "非族員";
+
+    identityMessage.textContent =
+        "還不快滾回來幫忙(x";
+
+
+    // ========================================================
+    // 尋找隱藏身分
+    // ========================================================
+
+    const secretIdentity =
+        getSecretIdentity(
+            playerName
+        );
+
+
+    if (secretIdentity) {
+
+        secretIdentityTitle.textContent =
+            secretIdentity.title;
+
+        secretIdentityMessage.textContent =
+            secretIdentity.message;
+
+        secretIdentityBox.style.display =
+            "block";
+
+    }
+    else {
+
+        secretIdentityTitle.textContent =
+            "";
+
+        secretIdentityMessage.textContent =
+            "";
+
+        secretIdentityBox.style.display =
+            "none";
+
+    }
+
+
+    // ========================================================
+    // 清除上一個身分的特效
+    // ========================================================
+
+    clearIdentityEffects();
+
+
+    // ========================================================
+    // 直接顯示第七頁
+    // ========================================================
+
+    showPage(
+        identityPage
     );
 
 }
