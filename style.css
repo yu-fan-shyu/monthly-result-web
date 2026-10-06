@@ -1314,6 +1314,7 @@ body.danger-mode .identity-message-area {
 
 /* ============================================================
    玩家名字
+   狗歐取消框線與底色
    ============================================================ */
 
 #identityPage.nailong-theme
@@ -1321,20 +1322,21 @@ body.danger-mode .identity-message-area {
 
     box-sizing: border-box;
 
-    background:
-        rgba(255, 247, 207, 0.92);
+    background: transparent !important;
 
-    border: 2px solid
-        rgba(255, 213, 73, 0.7);
+    border: none !important;
 
-    border-radius: 18px;
+    box-shadow: none !important;
 
-    padding: 12px 20px;
+    border-radius: 0 !important;
+
+    padding: 0 !important;
 }
 
 
 /* ============================================================
    非族員標題
+   取消黃色底色、框線與陰影
    ============================================================ */
 
 #identityPage.nailong-theme
@@ -1344,46 +1346,75 @@ body.danger-mode .identity-message-area {
 
     box-sizing: border-box;
 
-    background:
-        linear-gradient(
-            135deg,
-            #ffe879,
-            #ffc928
-        );
+    background: transparent !important;
+
+    border: none !important;
+
+    box-shadow: none !important;
+
+    border-radius: 0 !important;
+
+    padding: 0 !important;
 
     color: #402900;
-
-    padding: 10px 30px;
-
-    border-radius: 18px;
-
-    box-shadow:
-        0 8px 20px
-        rgba(210, 154, 0, 0.18);
 }
 
 
 /* ============================================================
    「還不快滾回來幫忙」
+   奶黃色底 + 黃色細框
    ============================================================ */
+
+#identityPage.nailong-theme
+.identity-message-area {
+
+    background:
+        rgba(255, 251, 229, 0.88) !important;
+
+    border:
+        2px solid #ffdb62 !important;
+
+    border-radius:
+        18px !important;
+
+    box-shadow:
+        0 8px 20px
+        rgba(204, 154, 0, 0.12) !important;
+
+    padding:
+        22px 20px !important;
+
+    margin-top: 20px;
+    margin-bottom: 30px;
+
+    min-height: 0 !important;
+}
+
+
+/* 訊息文字本身 */
 
 #identityPage.nailong-theme
 #identityMessage {
 
     box-sizing: border-box;
 
-    background:
-        rgba(255, 255, 255, 0.72);
+    background: transparent !important;
 
-    border: 1px solid
-        rgba(255, 204, 48, 0.5);
+    border: none !important;
 
-    border-radius: 18px;
+    box-shadow: none !important;
+
+    border-radius: 0 !important;
+
+    padding: 0 !important;
+
+    margin: 0 !important;
 }
 
 
 /* ============================================================
    隱藏身分區
+   移除黃色框、底色與陰影
    ============================================================ */
 
 #identityPage.nailong-theme
@@ -1391,16 +1422,13 @@ body.danger-mode .identity-message-area {
 
     box-sizing: border-box;
 
-    background:
-        rgba(255, 251, 229, 0.88);
+    background: transparent !important;
 
-    border: 2px solid #ffdb62;
+    border: none !important;
 
-    border-radius: 18px;
+    border-radius: 0 !important;
 
-    box-shadow:
-        0 8px 20px
-        rgba(204, 154, 0, 0.12);
+    box-shadow: none !important;
 }
 
 
@@ -1441,6 +1469,7 @@ body.danger-mode .identity-message-area {
         0 12px 24px
         rgba(205, 150, 0, 0.28);
 }
+
 
 /* ============================================================
    奶龍主題－手機版
