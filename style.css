@@ -1814,93 +1814,426 @@ body.danger-mode .identity-message-area {
 }
 
 
+
+
 /* ============================================================
    兎專屬主題－手機版
    ============================================================ */
 
-@media (max-width: 700px) {
+@media (max-width: 650px) {
 
-    /* 手機版背景 */
+    /* ========================================================
+       1. 手機版主背景
+       ======================================================== */
 
     #identityPage.rabbit-theme {
+        position: relative;
+
         width: min(450px, 92vw);
         max-width: 450px;
 
-        min-height: auto;
+        min-height: 650px;
+        height: 650px;
 
-        padding: 24px 20px;
+        box-sizing: border-box;
+        padding: 25px 20px 100px;
 
-        background-image: url("images/mumei_phone.jpg");
+        background-image: url("images/rabbit_bg.png");
         background-size: cover;
-        background-position: center center;
+        background-position: center bottom;
         background-repeat: no-repeat;
+
+        border: none;
+        border-radius: 24px;
+        overflow: hidden;
+
+        color: #674733;
     }
 
 
-    /* 手機版毛玻璃面板 */
+    /* ========================================================
+       2. 兔子虛線內容框
+       不再強制拉伸圖片比例
+       ======================================================== */
 
     #identityPage.rabbit-theme::before {
-        top: 16px;
-        bottom: 16px;
-        left: 12px;
+        content: "" !important;
+        display: block !important;
 
-        width: calc(100% - 24px);
+        position: absolute;
 
-        background: rgba(42, 48, 82, 0.02);
+        top: 20px;
+        left: 1%;
 
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        width: 98%;
+        height: 520px;
+
+        background-image: url("images/rabbit_frame.png");
+        background-size: 100% 100%;
+        background-position: center top;
+        background-repeat: no-repeat;
+
+        border: none !important;
+        box-shadow: none !important;
+
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+
+        pointer-events: none;
+
+        -webkit-mask-image: linear-gradient(
+            to bottom,
+            black 0%,
+            black 75%,
+            transparent 100%
+        );
+
+        mask-image: linear-gradient(
+            to bottom,
+            black 0%,
+            black 75%,
+            transparent 100%
+        );
+
+        z-index: 0;
     }
 
 
-    /* 手機版內容恢復全寬 */
+    /* ========================================================
+       3. 右下角人物圖片
+       ======================================================== */
+
+    #identityPage.rabbit-theme::after {
+        content: "";
+
+        position: absolute;
+
+        right: -70px;
+        bottom: -10px;
+
+        width: 170%;
+        height: 450px;
+
+        background-image: url("images/mumei_phone.png");
+        background-size: contain;
+        background-position: right bottom;
+        background-repeat: no-repeat;
+
+        pointer-events: none;
+        z-index: 2;
+    }
+
+
+    /* ========================================================
+       4. 內容顯示在背景框上方
+       ======================================================== */
 
     #identityPage.rabbit-theme
     > *:not(.nailong-decoration) {
-        width: 100% !important;
-        max-width: 100% !important;
+        position: relative;
+        z-index: 1;
 
-        top: 0;
-    }
+        box-sizing: border-box;
 
-
-    /* 手機版身分說明框 */
-
-    #identityPage.rabbit-theme
-    .identity-message-area {
-        width: 100% !important;
-        max-width: 100% !important;
-        transform: translateX(5px);
-
-        padding: 22px 16px !important;
-    }
-
-
-    /* 手機版隱藏身分恢復正常位置 */
-
-    #identityPage.rabbit-theme
-    .secret-identity-box {
-        transform: none;
-    }
-
-
-    /* 手機版排行榜按鈕 */
-
-    #identityPage.rabbit-theme
-    #nextToRankingButton {
         width: 100% !important;
         max-width: 100% !important;
 
         margin-left: 0 !important;
         margin-right: 0 !important;
 
+        top: 0;
         transform: none;
+    }
+
+
+    /* ========================================================
+       5. 本月結算身分標籤
+       ======================================================== */
+
+    #identityPage.rabbit-theme
+    .identity-label {
+        margin-top: 75px;
+
+        color: #89644b !important;
+        font-size: 14px;
+    }
+
+
+    /* ========================================================
+       6. 玩家名稱
+       ======================================================== */
+
+    #identityPage.rabbit-theme
+    #identityPlayerName {
+        color: #70462e !important;
+
+        font-size: 27px !important;
+        transform: none;
+
+        margin-top: 12px;
+    }
+
+
+    /* ========================================================
+       7. 本月身分標題
+       ======================================================== */
+
+    #identityPage.rabbit-theme
+    #identityTitle {
+        color: #a36b45 !important;
+
+        font-size: 32px !important;
+        transform: none;
+
+        margin-top: 15px;
+    }
+
+
+    /* ========================================================
+       8. 身分說明框
+       ======================================================== */
+
+    #identityPage.rabbit-theme
+    .identity-message-area {
+        width: 100% !important;
+        max-width: 100% !important;
+
+        margin: 25px auto !important;
+
+        padding: 16px 12px !important;
+
+        background: rgba(255, 248, 235, 0.7) !important;
+
+        border: none !important;
+        border-radius: 15px !important;
+
+        box-shadow: none !important;
+
+        transform: none;
+    }
+
+
+    /* ========================================================
+       9. 身分說明文字
+       ======================================================== */
+
+    #identityPage.rabbit-theme
+    #identityMessage {
+        color: #76543e !important;
+
+        font-size: 15px !important;
+        line-height: 1.8;
+    }
+
+
+    /* ========================================================
+       10. 隱藏身分
+       ======================================================== */
+
+    #identityPage.rabbit-theme
+    .secret-identity-box {
+        background: transparent !important;
+
+        border: none !important;
+        box-shadow: none !important;
+
+        padding: 12px 5px !important;
+
+        transform: none;
+    }
+
+
+    /* ========================================================
+       11. 隱藏身分文字
+       ======================================================== */
+
+    #identityPage.rabbit-theme
+    .secret-label,
+    #identityPage.rabbit-theme
+    #secretIdentityTitle,
+    #identityPage.rabbit-theme
+    #secretIdentityMessage {
+        color: #76503b !important;
+        text-shadow: none !important;
     }
 
 
     #identityPage.rabbit-theme
-    #nextToRankingButton:hover {
-        transform: none;
+    .secret-label {
+        font-size: 15px !important;
     }
 
+
+    #identityPage.rabbit-theme
+    #secretIdentityTitle {
+        font-size: 26px !important;
+    }
+
+
+    #identityPage.rabbit-theme
+    #secretIdentityMessage {
+        font-size: 15px !important;
+    }
+
+
+    /* ========================================================
+       12. 查看本月排行榜按鈕
+       保持圖片比例，並向左移
+       ======================================================== */
+
+    #identityPage.rabbit-theme
+    #nextToRankingButton {
+        display: block;
+
+        position: relative;
+        z-index: 3;
+
+        box-sizing: border-box;
+
+        /* 按鈕尺寸 */
+        width: 85% !important;
+        max-width: 85% !important;
+        min-height: 58px;
+
+        /* 靠左 */
+        margin: 25px 0 0 0 !important;
+
+        padding: 12px 35px !important;
+
+        background-color: transparent !important;
+        background-image: url("images/button.png") !important;
+
+        /* 不再強制拉扁圖片 */
+        background-size: contain !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+
+        border: none !important;
+        border-radius: 0 !important;
+
+        color: #ffffff !important;
+        font-size: 16px;
+        font-weight: bold;
+
+        box-shadow: none !important;
+
+        transform: translateX(-5px);
+        cursor: pointer;
+    }
+
+
+    /* ========================================================
+       13. 按鈕滑鼠懸停
+       ======================================================== */
+
+    #identityPage.rabbit-theme
+    #nextToRankingButton:hover {
+        filter: brightness(1.05);
+        transform: translateX(-5px);
+    }
+
+    
+    /* ========================================================
+       兎手機版－文字位置微調
+       正數往下，負數往上
+       ======================================================== */
+
+    /* 最上面：本月結算身分 */
+    #identityPage.rabbit-theme > .page-label {
+        transform: translateY(42px);
+    }
+
+    /* 玩家名稱：兎 */
+    #identityPage.rabbit-theme #identityPlayerName {
+        transform: translateY(35px);
+    }
+
+     /* 你的本月身分是 */
+    #identityPage.rabbit-theme .identity-label {
+        transform: translateY(-30px);
+    }
+
+
+    /* 本月身分：團本高手 */
+    #identityPage.rabbit-theme #identityTitle {
+        transform: translateY(-32px);
+    }
+
+    /* 兎手機版－身分說明文字（移除背景框） */
+    #identityPage.rabbit-theme
+    .identity-message-area {
+        width: 100% !important;
+        max-width: 100% !important;
+
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+
+        padding: 0 !important;
+
+        margin: 25px auto !important;
+
+        transform: translateX(0px);
+        transform: translateY(-52px);
+    }
+
+    /* 隱藏身分解鎖 */
+    #identityPage.rabbit-theme .secret-label {
+        transform: translate(-25px,-90px);
+    }
+
+    /* 隱藏身分名稱 */
+    #identityPage.rabbit-theme #secretIdentityTitle {
+        transform: translate(-25px, -95px);
+    }
+
+    /* 隱藏身分訊息 */
+    #identityPage.rabbit-theme #secretIdentityMessage {
+        transform: translate(-25px, -105px);
+    }
+
+    /* ========================================================
+    兎手機版－排行榜按鈕
+    ======================================================== */
+
+    #identityPage.rabbit-theme
+    #nextToRankingButton {
+
+        /* 按鈕顯示與層級 */
+        display: block;
+        position: relative;
+        z-index: 3;
+
+        /* 按鈕大小 */
+        width: 80% !important;
+        max-width: 80% !important;
+
+        height: 70px;
+        min-height: 0;
+
+        /* 間距 */
+        margin: 25px auto 0 !important;
+        padding: 0 !important;
+
+        /* 按鈕背景圖片 */
+        background: transparent url("images/button.png")
+            center / contain no-repeat !important;
+
+        /* 移除框線與陰影 */
+        border: none !important;
+        box-shadow: none !important;
+
+        /* 關閉毛玻璃效果 */
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+
+        /* 按鈕文字 */
+        color: white !important;
+        font-size: 14px;
+        font-weight: bold;
+
+        /* 按鈕位置 */
+        transform: translate(-30px, -130px);
+    }
 }
