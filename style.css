@@ -1870,7 +1870,7 @@ body.danger-mode .identity-message-area {
     .identity-message-area {
         width: 100% !important;
         max-width: 100% !important;
-        transform: translateX(10px);
+        transform: translateX(5px);
 
         padding: 22px 16px !important;
     }
