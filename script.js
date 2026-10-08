@@ -2825,6 +2825,31 @@ function showIdentityPage() {
         "nailong-theme"
     );
 
+    // ========================================================
+    // 兎專屬背景主題
+    // ========================================================
+
+    const identityPlayerNameValue =
+        String(currentPlayer?.[0] ?? "").trim();
+
+    if (
+        normalizeName(identityPlayerNameValue) ===
+        normalizeName("兎")
+    ) {
+
+        identityPage.classList.add(
+            "rabbit-theme"
+        );
+
+    }
+    else {
+
+        identityPage.classList.remove(
+            "rabbit-theme"
+        );
+
+    }
+
     if (
         !currentPlayer ||
         !currentData
@@ -2929,6 +2954,10 @@ function showIdentityPage() {
 // ============================================================
 
 function showNonMemberIdentityPage() {
+
+    identityPage.classList.remove(
+        "rabbit-theme"
+    );
 
     if (
         !currentPlayer ||
